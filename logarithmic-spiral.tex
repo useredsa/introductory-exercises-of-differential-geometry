@@ -1,0 +1,183 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	12pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Required for better horizontal rules in tables
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\setlength{\parindent}{15pt}
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 1 \\ The Logarithmic Spiral} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{October 3rd, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%	Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\DeclareMathOperator{\len}{len}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Question 1}
+
+\begin{problem}
+    Let $α : \R → \R^2$ be the parametrized curve given by $α(t) = ae^{bt}(\cos t, \sin t)$,
+where $a > 0$ and $b < 1$.
+Find the arc length function and a reparametrization with respect to arc length.
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    The arc length function can be as the integral of the norm of the derivative.
+That is,
+
+\begin{multline*}
+    \len(t_0, τ) =
+    \int_{t_0}^τ \norm{\dv{α}{t}} \dd{t} = \\
+    \int_{t_0}^τ \norm{ae^{bt} \qty(b\cos t - \sin t, b\sin t + \cos t)} \dd{t} =
+    \int_{t_0}^τ ae^{bt}\sqrt{b^2 + 1} \dd{t} = \\
+    \left\{ \begin{split}
+        (b = 0) & &
+        = a\eval[τ|_{t_0}^τ
+        = a(τ-t_0). \\
+        (b ≠ 0) & &
+        = \frac{a\sqrt{b^2 + 1}}{b} \eval[e^{bt}|_{t_0}^τ =
+        k (e^{bτ} - e^{bt_0}). \\
+    \end{split} \right.
+\end{multline*}
+
+\noindent
+where we have defined $k$ as $\frac{a\sqrt{b^2 +1}}{b}$ for convenience.
+
+    When $b = 0$, the spiral becomes a circunference
+that is traversed at the constant speed $a$.
+This degenerate case can be reparametrized as
+
+\begin{align*}
+    \vectorunit*{α}(t) & =
+    a\qty(\cos \frac{t}{a}, \sin \frac{t}{a}), \\
+    \norm{\dv{\vectorunit*{α}(t)}{t}} & =
+    \norm{\qty(-\sin \frac{t}{a}, \cos \frac{t}{a})} = 1.
+\end{align*}
+
+    For the case $b \neq 0$, owing to the fact that
+the (timed by $t_0$) position can be chosen arbitrarily,
+and, because either
+$\lim_{t_0 \to -∞} e^{bt_0} = 0$ if $b > 0$ or
+$\lim_{t_0 \to ∞} e^{bt_0} = 0$ if $b < 0$,
+we can consider the integral when $t_0 = -∞$ or $t_0 = ∞$.
+Hence, and for simplicity, we will assume $b > 0$ from here onwards
+and write the length as $\len(-∞, τ) = \len(τ) = ke^{bτ}$.
+
+    To reparametrizate the curve with respect to its length,
+we guess that we need to find the function
+
+\begin{align*}
+    \R & \to \R^2 \\
+    t & \mapsto α(p_t | \len(p_t) = t), \\
+\end{align*}
+
+which ought to be
+
+\begin{align*}
+    \R & \to \R^2 \\
+    t & \mapsto α(\len^{-1}(p_t)). \\
+\end{align*}
+
+\noindent
+We have seen in class a theorem that asserts that the inverse and this reparametrization
+always exist when $\dv{α}{t} ≠ 0$.
+For our particular problem, it is enough to clear $τ$ from the relation $len(τ) = ke^{bτ}$,
+giving
+%TODO clear = despejar?
+
+\begin{align*}
+    \len(τ) & = ke^{bτ} \\
+    τ & = \frac{\ln \len(τ) - \ln k}{b}\\
+    \len^{-1}(τ) & = \frac{\ln τ - \ln k}{b}.
+\end{align*}
+
+\noindent
+Thus, the formula for the reparametrization would be
+
+\begin{multline*}
+    \vectorunit*{α}(t) =
+    α\qty(\len^{-1}(t)) =
+    α\qty(\frac{\ln t - \ln k}{b}) = \\
+    ae^{b\frac{\ln t - \ln k}{b}} \qty(\cos \frac{\ln t - \ln k}{b}, \sin \frac{\ln t - \ln k}{b}) =
+    \qty( k = \frac{a\sqrt{b^2 +1}}{b} ) = \\
+    \frac{bt}{\sqrt{b^2+1}} \qty(\cos \frac{\ln t - \ln k}{b}, \sin \frac{\ln t - \ln k}{b}).
+\end{multline*}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Extra}
+
+    As you may have noticed, the expression for $\vectorunit*{α}$
+(which is in polar form)
+shows that the radius of the spiral does not depend on the choice of $a$.
+And although the angle does (via $k$),
+the derivative of the angle doesn't.
+What this means is that the set of curves with the same $b$ are all similar by rotation.
+We can check that a rotation of a logarithmic spiral does, indeed,
+give another logarithmic spiral with the same $b$ parameter.
+That is, a scaled version of the original curve.
+Similarly, a scaled version of the original curve can be obtained via a rotation.
+This property of the logarithmic spiral is called self-similarity.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
