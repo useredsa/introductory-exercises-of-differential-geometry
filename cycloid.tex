@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 2 \\ The Cycloid} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{October 14th, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\DeclareMathOperator{\len}{len}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Consider a circunference of radius $1$ that rolls along the $x$ axis.
+The curve described by a point of the circunference as it rolls is called cycloid,
+one of the most important classical curves.
+
+\begin{center}
+    \incfig{cycloid}
+\end{center}
+
+    Find the parametrization $α : \R \to \R^2$ of the cycloid,
+its singular points,
+and the length for a complete turn of the circunference.
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    It seems natural to parametrize the cycloid in terms of
+the angle rotation $θ$ of the circunference.
+Because then,
+the distance travelled by the center of the circunference,
+which moves horizontally at height $1$,
+and the angle of the selected point are easy to parametrize
+(see \cref{fig-distance-by-angle}).
+
+\begin{figure}[h]
+    \incfig{cycloid_circunference_rolling}
+    \caption{Distance travelled by a rolling circunference
+    with respect to the rotated angle.}
+    \label{fig-distance-by-angle}
+\end{figure}
+
+\noindent
+The distance travelled by the center has to be equal to
+the length of the arc of circunference that has been in contact with the «ground»
+(the $x$ axis).
+That is, the radius times the angle of turn,
+which is equal to the radius of turn in our problem.
+Hence, the parametrization for the position of the center of the circunference is
+
+\begin{equation*}
+    c(θ) = \qty(θ, 1).
+\end{equation*}
+
+\noindent
+It is true this reasoning depends on the physical interpretation of the movement,
+but this cannot be avoided as the problem's statement does not describe
+what we understand as rolling through the $x$ axis with a formula.
+
+\noindent
+For $θ = 0$, the selected point forms an angle of $\frac{3π}{2}$
+and rotates in counterclockwise sense,
+which makes its position
+
+\begin{multline*}
+% The use of spacing here goes aggainst the separation of content and formatting
+% but the output didn't look right otherwise.
+    α(θ) = \\
+    \begin{split}
+        c(θ) + \qty\Big(\cos(\frac{3π}{2}-θ), \sin(\frac{3π}{2}-θ)) =
+        & \qty\Big(\text{using } \cos(ρ - \frac{π}{2}) = \ \; \sin ρ) = \\
+        c(θ) + \qty\Big(\sin(2π-θ), \cos(\frac{π}{2}-θ)) =
+        & \qty\Big(\text{using } \sin\Big(-ρ\Big) \ \,  = -\sin ρ) = \\
+        c(θ) + \qty\Big(-\sin θ, \cos(\frac{π}{2}-θ)) =
+        & \qty\Big(\text{using } \cos(\frac{π}{2}-ρ) = -\cos ρ) = \\
+        c(θ) + \qty\Big(-\sin θ, -\cos(θ)) =
+        & \qty\Big(θ, 1) + \qty\Big(-\sin θ, -\cos θ) = \\
+    \end{split} \\
+    \qty\Big(θ - \sin θ, 1 - \cos θ).\footnotemark
+\end{multline*}
+
+\footnotetext{
+    A nice list of trigonometric identities can be found at
+\href{https://en.wikipedia.org/wiki/List_of_trigonometric_identities}{wikipedia.org}.
+}
+
+    To find the singular points and the length of the cycloid,
+we will need to compute the derivative of $α$.
+
+\begin{align*}
+    \dv{α}{θ} &= \qty\Big(1 - \cos θ, \sin θ). \\
+    \norm{\dv{α}{θ}} &= \sqrt{\qty(1 - \cos θ)^2 + \qty(\sin θ)^2} = \sqrt{2 - 2\cos θ}.
+\end{align*}
+
+    We can now solve the equation $\dv{α}{θ} = 0$ to find the singular points.
+
+\begin{gather*}
+    \dv{α}{θ} = 0 \\
+    \qty\Big(1 - \cos θ, \sin θ) = 0 \\
+    1 - \cos θ = 0 \iff θ = 0 + 2πk \quad (k \in \N) \implies \sin θ = 0,
+\end{gather*}
+
+\noindent
+concluding that the singular points are $\{2πk\}_{k \in \N}$.
+
+    And finally, to find the length for a complete turn of the circunference,
+we need to integrate an interval of size $2π$
+$\qty(\int_{θ_0}^{θ_0+2π} \norm{\dv{α}{ϴ}} \dd{θ})$.%\footnotemark.
+We will choose to integrate the interval $[0, 2π]$.
+
+% \footnotetext{ Removed: The curve has unregular points but they aren't singular
+%     Even though the curve contains singular points,
+% the length can still be defined for differentiable curves in almost every point
+% in just as with differentiable functions and calculated by integrating the derivative.
+% However, the choice of $θ_0 = 0$ makes the tooling unnecesary for this problem.
+% } %TODO check needed: subject FVVIII
+
+\begin{multline*}
+    \int_0^{2π} \norm{\dv{α}{ϴ}} \dd{θ} =
+    \int_0^{2π} \sqrt{2-2\cos θ} \dd{θ} = \\
+    \begin{multlined}
+        \int_0^{2π} \sqrt{2-2\qty(\cos^2 \frac{θ}{2} - \sin^2 \frac{θ}{2})} \dd{θ} =
+        \int_0^{2π} \sqrt{2-2\qty(1 - 2\sin^2 \frac{θ}{2})} \dd{θ} = \\
+        \int_0^{2π} \sqrt{4\sin^2 \frac{θ}{2}} \dd{θ} =
+        \Big(\text{When } \frac{θ}{2} \in [0, π], \:
+                    \abs{\sin \frac{θ}{2}} = \sin \frac{θ}{2}\Big) =
+        \int_0^{2π} 2\sin\frac{θ}{2} \dd{θ} = \\
+        4\int_0^{2π} \frac{1}{2}\sin\frac{θ}{2} \dd{θ} =
+        4\eval[-\cos\frac{θ}{2}|_0^{2π} =
+    \end{multlined} \\
+    8.
+\end{multline*}
+
+% \newpage
+% \section*{Integrating without the half angle identity}
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
