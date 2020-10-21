@@ -73,7 +73,7 @@
 \usepackage{physics}
 \DeclareMathOperator{\len}{len}
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 
 \begin{document}
 
@@ -175,11 +175,11 @@ we will need to compute the derivative of $α$.
 \begin{gather*}
     \dv{α}{θ} = 0 \\
     \qty\Big(1 - \cos θ, \sin θ) = 0 \\
-    1 - \cos θ = 0 \iff θ = 0 + 2πk \quad (k \in \N) \implies \sin θ = 0,
+    1 - \cos θ = 0 \iff θ = 0 + 2πk \quad (k \in \Z) \implies \sin θ = 0,
 \end{gather*}
 
 \noindent
-concluding that the singular points are $\{2πk\}_{k \in \N}$.
+concluding that the singular points are $\{2πk\}_{k \in \Z}$.
 
     And finally, to find the length for a complete turn of the circunference,
 we need to integrate an interval of size $2π$
