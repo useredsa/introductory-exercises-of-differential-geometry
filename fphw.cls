@@ -79,7 +79,7 @@
 % modification of subsection and sub sub section
 \titleformat{\subsection}[runin]{\bfseries}{ \thesubsection.}
 {1mm}{}[.\quad]
-\titleformat{\subsubsection}[runin]{\bfseries\itshape}{ \thesubsubsection.}
+\titleformat{\subsubsection}[runin]{\bfseries}{ \thesubsubsection.}
 {1mm}{}[.\quad]
 
 % Geometry lets us modify the sizes of the document nicely

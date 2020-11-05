@@ -1,0 +1,276 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 5 \\ Stereographic Projection} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{November 4th, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\sphere}{{\mathbb{S}^2}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+
+The stereographic projection is a function that projects the sphere given by the equation
+
+\begin{equation*}
+    \sphere = \qty{\mqty(x & y & z) : x^2 + y^2 + (z-1)^2 = 1}
+\end{equation*}
+
+onto the plane $z = 0$, which we identify with $\R^2$.
+The projection; $π$; maps the point $p = \mqty(x & y & z) \in \sphere - \qty{N}$,
+where $N = \mqty(0 & 0 & 2)$,
+to the insersection of the plane $z = 0$ with the line that connects $N$ and $p$.
+
+\begin{enumerate}
+    \item Prove that $X = π^{-1} : \R^2 \to \sphere - \qty{N}$
+    is a parametrization of the sphere.
+
+    \item Find the coefficients of the first fundamental form of $X$.
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    The statement talks about $π$ and gives a valid definition for it because
+the intersection of a line and a plane is at most one point and
+the lines that join $N$ and a different point are never parallel to the plane $z=0$.
+However, all the questions are related to $X ≔ π^{-1}$.
+Out approach finds the expression for $X$ without computing the expression of $π$.
+Nevertheless, we can use the fact that we know that $π$ is well defined
+to define $X$ in a way that it is $π^{-1}$ (by construction)
+and is therefore biyective (hence inyective),
+which comes in handy to prove that it is a parametrization
+without proving that the inverse is also continuos.
+That is, without finding an expression for $π$.
+
+    Take a point $\mqty(u & v)$ of $\R^2$.
+$X(u, v)$ is the image of a point $\mqty(x & y & z)$ if and only if
+$\mqty(u & v & 0)$ is the intersection of the plane $z = 0$ and
+the line $l ≔ \qty{N + λ(\mqty(x & y & z)-N)}_{λ \in \R}$.
+Hence, $l$ is also the line that passes through $N$ and $\mqty(u & v & 0)$,
+and $π^{-1}(\qty{\mqty(u & v)})$ is, by definition, $l \cap (\sphere - N)$.
+
+\begin{equation*}
+    l = 
+    \qty{\mqty(u & v & 0) + λ\qty(N-\mqty(u & v & 0))}_{λ \in \R} =
+    \qty{\mqty(u(1-λ) & v(1-λ) & 2λ)}_{λ \in \R}. \\
+\end{equation*}
+\begin{equation*}
+    l \cap \sphere = \\
+    \qty{\mqty(u(1-λ) & v(1-λ) & 2λ)}_{λ \in \R} \cap \qty{x^2 + y^2 + (z-1)^2 = 1},
+\end{equation*}
+
+\pagebreak
+
+    Substituting the parametric equations of $l$ into the implicit equation of $\sphere$
+leaves us with the equation\footnote{
+Note that we know $l(1) = N \in \sphere$,
+which means that $λ = 1$ is a solution of the equation.}
+
+\begin{gather*}
+    \begin{aligned}
+        u^2(1-λ)^2 + v^2(1-λ)^2 + (2λ-1)^2 &= 1 \\
+        (1-λ)\qty[(u^2+v^2)(1-λ) - 4λ] &= 0,
+    \end{aligned} \\
+\end{gather*}
+
+\noindent
+of solutions $λ = 1$ and $λ = \frac{u^2+v^2}{u^2+v^2+4} = 1 - \frac{4}{u^2+v^2+4}$.
+That gives
+
+\begin{align*}
+    l \cap \sphere &=
+    \qty{
+        \mqty(\frac{4u}{u^2+v^2+4} & \frac{4v}{u^2+v^2+4} & 2-\frac{8}{u^2+v^2+4}),
+        N
+    } \qq{and} \\
+    l \cap (\sphere - N) &=
+    \qty{
+        \mqty(\frac{4u}{u^2+v^2+4} & \frac{4v}{u^2+v^2+4} & 2-\frac{8}{u^2+v^2+4})
+    }.
+\end{align*}
+
+    The fact that the intersection is defined for all $\mqty(u & v)$ and is unique
+proves that $π$ is a biyection between $\sphere - N$ and $\R^2$.
+And the expression for $π^{-1}$ would be
+
+\begin{equation*}
+    X(u, v) =
+    \mqty(\dfrac{4u}{u^2+v^2+4} & \dfrac{4v}{u^2+v^2+4} & 2-\dfrac{8}{u^2+v^2+4}).
+\end{equation*}
+
+    Now we foucs on the properties of $X$. Its differential is
+
+\begin{equation*}
+    %TODO \mqty was not handled as I expected in a subindex
+    \dd{X}_{(u \; v)} =
+    \pmqty{
+    -4u^2 + 4v^2 + 16 & -8uv \\
+    -8uv & 4u^2 - 4v^2 + 16 \\
+    16u & 16v \\
+    } \times \frac{1}{(u^2+v^2+4)^2}
+\end{equation*}
+
+\noindent
+which is of maximum range because
+
+\begin{multline*}
+    \mqty|
+    -4u^2 + 4v^2 + 16 & -8uv \\
+    -8uv & 4u^2 - 4v^2 + 16
+    | = \\
+    16^2 - (4u^2-4v^2)^2 - (8uv)^2 =
+    16^2 - 16(u^4+v^4) + 32u^2v^2 - 64u^2v^2 = \\
+    16^2 - (4(u^2+v^2))^2,
+\end{multline*}
+\begin{multline*}
+    \mqty|
+    -4u^2 + 4v^2 + 16 & -8uv \\
+    16u & 16v \\
+    | = \\
+    -64u^2v + 64v^3 + 256v + 128u^2v =
+    v(64(u^2 + v^2) + 256)
+\end{multline*}
+\noindent
+and
+\begin{multline*}
+    \mqty|
+    -8uv & 4u^2 - 4v^2 + 16 \\
+    16u & 16v \\
+    | = \\
+    -128uv^2 - 64u^3 + 64uv^2 - 256u =
+    u(-64(u^2 + v^2) - 256)
+\end{multline*}
+
+\noindent
+are $0$ when $u^2+v^2 = 4$, $v = 0$ and $u = 0$, respectively,
+which cannot happen at the same time.
+All the work up until now,
+plus the fact that $X$ in inyective because it is the inverse of $π$,
+is enough to apply the technical result that proves that
+$X^{-1}$ exists and is continuous.
+In other words, to show that $X$ is a parametrization of $\sphere$.
+
+\subsubsection*{Coefficients}
+
+\newcommand{\dX}[1]{{\pdv{X_{(u \; v)}}{#1}}}
+
+Writing
+
+\begin{align*}
+    \dX{u} &= \frac{\mqty(-4u^2 + 4v^2 + 16 & -8uv & 16u)}{(u^2+v^2+4)^2}, \\
+    \dX{v} &= \frac{\mqty(-8uv & 4u^2 - 4v^2 + 16 & 16v)}{(u^2+v^2+4)^2};
+\end{align*}
+
+\noindent
+we get that the coefficients are
+
+\begin{multline*}
+    {E = \inner{\dX{u}}{\dX{u}} = } \\
+    \frac{1}{(u^2+v^2+4)^4}
+        \qty(16u^4+16v^4+256-32u^2v^2-128u^2+128v^2 + 64u^2v^2 + 256u^2) = \\
+    \frac{1}{(u^2+v^2+4)^4}
+        \qty(16u^4+16v^4 +32u^2v^2 + 128u^2 + 128v^2 + 256) = \\
+    \frac{16}{(u^2+v^2+4)^4}
+        \qty(u^4+v^4 +2u^2v^2 + 8u^2 + 8v^2 + 16) =
+    \frac{16}{(u^2+v^2+4)^2},
+\end{multline*}
+\begin{multline*}
+    {G = \inner{\dX{v}}{\dX{v}} = }
+    \hfill \text{(by symmetry)} \hfill =
+    \frac{16}{(u^2+v^2+4)^2}
+\end{multline*}
+and
+\begin{multline*}
+    {F = \inner{\dX{u}}{\dX{v}} = }
+    \hfill \frac{1}{(u^2+v^2+4)^4} \qty(-128uv - 128uv + 256uv) \hfill =
+    0.
+\end{multline*}
+
+(Note that $X$ is an orthogonal parametrization because $F = 0$.)
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
