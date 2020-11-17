@@ -1,0 +1,338 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 6 \\ Surface Gradient} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{November 14th, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+\newcommand{\tf}{\tilde{f}}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\proj}{proj}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+
+    The \emph{gradient} of a differentiable function $f : S \to \R$ is the function
+$\grad{f} : S \to \R^3$ that assigns each point $p \in S$ the vector
+$\grad{f}(p) \in T_p \subset \R^3$ such that
+
+\begin{equation*}
+    \braket{\grad{f}(p)}{v} = \dd{f}_p(v)
+\end{equation*}
+
+\noindent
+for each $v \in T_pS$.
+The gradient is a good example of a field of tangent vectors over $S$.
+
+    Prove that
+
+\begin{enumerate}
+    \item If $E$, $F$, and $G$ are the coefficients of the first fundamental form
+    for a parametrization $X : U \subset \R^2 \to S$, then
+
+    \begin{equation*}
+        \grad{f} = \frac{\tf_uG - \tf_vF}{EG-F^2}X_u + \frac{\tf_vE - \tf_uF}{EG-F^2}X_v
+    \end{equation*}
+
+    inside $X(U)$.
+    Where $\tf = f \circ X$ is the local representative of $f$ by $X$.
+
+    And in particular, if $S = \R^2$ then the definition matches the usual definition
+    of gradient for functions defined over $\R^2$.
+
+    \item The gradient for a surface points in the direction (in the tangent space)
+    of greatest slope.
+
+    \begin{equation*}
+        \max\qty{\frac{\dd{f}_p(v)}{\norm{v}}}_{v \in T_pS} =
+        \max\qty{\dd{f}_p\qty(\frac{v}{\norm{v}})}_{v \in T_pS} =
+        \dd{f}_p\qty(\frac{\grad{f}(p)}{\norm{\grad{f}(p)}}).
+    \end{equation*}
+
+    \item If $\grad{f} ≠ 0$ for every point of a contour line $C = f^{-1}(a)$,
+    then $C$ is a regular curve over $S$ and $\grad{f}$ is orthogonal to $C$ in $C$.
+
+    \begin{equation*}
+        0 \notin \grad{f}(C) \implies
+        \begin{dcases}
+            \text{$C$ is a curve} \\
+            \grad{f} \perp C.
+        \end{dcases}
+    \end{equation*}
+\end{enumerate}
+
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    \textit{Riesz Theorem} states that for any linear functional $F$
+over a finite dimensional\footnotemark Hilbert space (like $T_pS$),
+there exists a vector $v$ such that $F = \braket{v}{\cdot}$.
+This theorem justifies the definition of the differential.
+That the gradient points in the direction of greatest slope is a consequence of
+\textit{Cauchy-Schwarz} inequality.
+%
+\begin{equation*}
+    \abs{\braket{\grad{f}(p)}{\frac{v}{\norm{v}}}} ≤ \norm{\grad{f}(p)}.
+\end{equation*}
+%
+Which is an equality when
+$\braket{\grad{f}(p)}{\frac{\grad{f}(p)}{\norm{\grad{f}(p)}}} = \norm{\grad{f}(p)} ≥ 0$.
+Therefore,
+%
+\begin{equation*}
+    \max\qty{\frac{\dd{f}_p(v)}{\norm{v}}}_{v \in T_pS} =
+    \frac{\dd{f}_p(\grad{f}(p))}{\norm{\grad{f}(p)}}.
+\end{equation*}
+
+\footnotetext{Actually, the theorem can also be proved
+for infinite dimensional Hilbert spaces
+if the linear functional is continuous.}
+
+    Next we will find the expression of $f$ in the basis $\qty{X_u, X_v}$.
+%
+\begin{equation*}
+    \grad{f} = c_uX_u + c_vX_v.
+\end{equation*}
+%
+Given that we have an expression for the dot product of $\grad{f}$,
+our mind could be asking us to write
+$c_u = \braket{\grad{f}}{X_u}$ and $c_v = \braket{\grad{f}}{X_v}$.
+And although that is not true because $X_u$ and $X_v$ are not necesarilly ortonormal,
+we can still deduce the values of $c_u$ and $c_v$ using those products,
+because
+%
+\begin{alignat*}{2}
+    \braket{\grad{f}}{X_u} &=
+    \braket{c_uX_u + c_vX_v}{X_u} &=
+    c_u\braket{X_u}{X_u} + c_v\braket{X_v}{X_u} &=
+    Ec_u + Fc_v \qq{and} \\
+    \braket{\grad{f}}{X_v} &=
+    \braket{c_uX_u + c_vX_v}{X_v} &=
+    c_u\braket{X_u}{X_v} + c_v\braket{X_v}{X_v} &=
+    Fc_u + Gc_v.
+\end{alignat*}
+%
+Which, using the differentail equal
+%
+\begin{equation*}
+    \begin{aligned}
+        \braket{\grad{f}}{X_u} &=
+        \dd{f}(X_u) &= \\
+        \braket{\grad{f}}{X_v} &=
+        \dd{f}(X_v) &=
+    \end{aligned}
+    \qq{(by definition of the differential)\footnote{}}
+    \begin{aligned}
+        = &\tf_u &\qq{and} \\
+        = &\tf_v.
+    \end{aligned}
+\end{equation*}
+
+\footnotetext{Or, reproducing the definitions, if so you prefer:
+$\dd{f}(X_u) = \dd{f} \circ \dd{X}(1, 0) = \dd{\tf}(1, 0) = \tf_u$.}
+
+     Matching both expressions we get the system
+%
+\begin{align*}
+    \begin{dcases}
+        c_uE + c_vF = \tf_u \\
+        c_uF + c_vG = \tf_v
+    \end{dcases}
+    \implies
+    \begin{dcases}
+        c_u(EG - F^2) = \tf_uG - \tf_vF \\
+        c_v(F^2 - GE) = \tf_uF - \tf_vE \\
+    \end{dcases},
+    & \qq{which,} \\
+    \qq{if $EG-F^2 ≠ 0$, implies that} &
+    \begin{dcases}
+        c_u = \frac{\tf_uG - \tf_vF}{EG-F^2}X_u \\
+        c_v = \frac{\tf_vE - \tf_uF}{EG-F^2}X_v &.
+    \end{dcases}
+\end{align*}
+%
+But $EG-F^2$ cannot be zero, ultimately because $\qty{X_u, X_v}$ is a basis of $T_pS$
+which in turn is because $\dd{X}$ is inyective.
+
+    When the basis is taken to be orthogonal the expression is greatly simplified.
+%
+\begin{equation*}
+    \grad{f} =
+    \frac{\tf_uG - \tf_vF}{EG-F^2}X_u + \frac{\tf_vE - \tf_uF}{EG-F^2}X_v =
+    (F = 0) =
+    \tf_u\frac{X_u}{E} + \tf_v\frac{X_v}{G}.
+\end{equation*}
+%
+And in particular, when $S = \R^2$ and $X$ is taken to be the identity so that
+$X_u = \mqty(1 & 0)$ and $X_v = \mqty(0 & 1)$,
+$E = G = 1$, and the equation can be written as
+%
+\begin{multline*}
+    \grad{f} =
+    \tf_u\mqty(1 & 0) + \tf_v\mqty(0 & 1) =
+    \mqty(\tf_u & \tf_v) = \\
+%
+    \begin{multlined}
+\text{\Big(Where $\tf_u = \dd(f\circ X)\mqty(1 & 0) = \dd{f}\mqty(1 & 0) = \pdv{f}{u}$} \\
+\text{using the standard definition of differential.\Big)}
+    \end{multlined} \\
+%
+    \mqty(\pdv{f}{u} & \pdv{f}{v}) =
+    \grad{f},
+\end{multline*}
+%
+where the last symbol is the traditional interpretation of the gradient.
+
+    Lastly, if $\grad{f} ≠ 0$ for every point of a contour line $C = f^{-1}(a)$,
+$C$ should be a regular curve.
+There is a similar result over $\R^2$ that proves it using the implicit function theorem.
+But, as usual when developing the theory about surfaces,
+we do not have it defined or proved for surfaces.
+Luckily, the solution is, as usual, bringing the problem to $\R^2$
+making use of $X$.
+
+    Fix $p \in C$. We would like to start by proving that
+$\grad{f}(p) ≠ 0 \iff \grad{\tf}(X^{-1}(p)) ≠ 0$.
+Such an intuitive statement would be hard to prove playing with the
+(clearly not-)inspiring expression we have derived for $\grad{f}(p)$.
+Instead, it is easier to prove that $\grad{f}(p) = 0 \iff \grad{\tf}(X^{-1}(p)) = 0$.
+%
+\begin{multline*}
+    \grad{f}(p) = 0 \iff
+    \dd{f}(p) = 0 \iff
+    \qty(\dd{X} biyective) \iff \\
+    \dd{f}(p)\circ\dd{X}(X^{-1}(p)) =
+        \dd(f\circ X)(X^{-1}(p)) = \dd{\tf}(X^{-1}(p)) = 0 \iff \\
+    \grad{\tf}(X^{-1}(p)) = 0.
+\end{multline*}
+
+    Now we will move the problem to $U$.
+Define $\tilde{C} = X^{-1}(C\cap \Ima{X})$.
+From here onwards, we write $q = X^{-1}(p)$ for simplicity.
+Clearly, $q$ is in $\tilde{C}$.
+Because $\grad{\tf}(q) ≠ 0$, either $\pdv{\tf}{u}\,(q) ≠ 0$ or $\pdv{\tf}{v}\,(q) ≠ 0$.
+Without loss of generality, assume it is $\pdv{\tf}{v}\,(q)$.
+Then there exists a neighborhood $N$ of $q$ ($\in \R^2$) and
+a differentiable function $v : (I := \proj_{\R}(N)) \to N$ such that
+$\qty{\mqty(u & v(u))}_{u \in I} = \tilde{C} \cap N$.
+That means that locally, $\tilde{C} = \tilde{α}(I)$ where $\tilde{α}(t) = \mqty(t & v(t))$.
+And we can return our conclusion to $C$ writing
+%
+\begin{equation*}
+    C \cap \qty(\Ima X \cap X(N)) =
+    \qty(C \cap \Ima X) \cap X(N) =
+    X(\tilde{C} \cap N) =
+    X(\tilde{α}(I)).
+\end{equation*}
+%
+Note that $X(N)$ is a neighborhood of $p$ because $X$ is an homeomorphism (thus it is open).
+Hence, we have proved that there exists a neighborhood, $\Ima X \cap X(N)$, of $p$
+on which $C$ is $X(α(I))$,
+for $N$, $I$ and $α$ all dependent on $X$ and $p$.
+And in order to complete the argument,
+we emphasize that $\tilde{α} = \qty[t \mapsto \mqty(t & v(t))]$ is clearly
+differentiable, regular\footnotemark and inyective,
+and so would be $α(t) := X(\tilde{α}(t))$,
+completing the argument that $C$ is a regular curve in $S$.
+
+\footnotetext{Indeed, $\dv{\tilde{α}}{t} = \mqty(1 & \dv{v}{t}) ≠ 0$.
+Also, the inyectivity is key to prove that $\tilde{α}$ is an homeomorphism.}
+
+    In the previous conditions, $f(α(t)) = a$ is a constant function from $\R$ to $\R$.
+%
+\begin{equation*}
+    0 = \dd{(f \circ α)}(t) = \dd{f}(α(t))(\dd{α}(t)) = \braket{\grad{f}(α(t))}{\dd{α}(t)}
+    \implies
+    \grad{f}(p) \perp T_pC.
+\end{equation*}
+%
+Where we have used the chain rule for functions defined between manifolds,
+the definition of gradient and
+the fact that the image of $\dd{α}(t)$ generates $T_{α(t)}C$.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
