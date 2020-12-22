@@ -208,11 +208,17 @@ for every point $p \in S_1$.
 And for simplicity, we will take $S_1 = S_2$ and the identity map.
 The easiest surface must be $\R^2 \subset \R^3$.
 The atlas $\qty{i : \R^2 \to \R^3}$ has a different orientation than
-$\qty{-i : \R^2 \to \R^3}$,
-because the basis $\basis{i_u(0)}{i_v(0)} = \basis{e_1}{e_2}$
-has a different orientation than $\basis{(-i)_u(0)}{(-i)_v(0)} = \basis{-e_1}{-e_2}$.
+$\qty{r(u, v) = \mqty(v & u & 0) : \R^2 \to \R^3}$.
+This can be justified writing the bases
+%
+\begin{align*}
+    \basis{i_u(0)}{i_v(0)} &= \basis{e_1}{e_2} \qq{and} \\
+    \basis{r_u(0)}{r_v(0)} &= \basis{e_2}{e_1},
+\end{align*}
+%
+which have different orientations.
 
-    The identity map $\Id : (\R^2, \{i\}) \to (\R^2 \{-i\})$
+    The identity map $\Id : (\R^2, \{i\}) \to (\R^2 \{r\})$
 is a diffeomorphism between $S_1 = \R^2$ to $S_2 = \R^2$ that induces a different
 orientation in $S_2$,
 as we will prove.
