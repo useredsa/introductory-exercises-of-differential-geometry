@@ -1,0 +1,228 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 7 \\ Orientability} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{November 14th, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\basis}[2]{\qty{#1,\ #2}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Id}{Id}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    \begin{enumerate}
+        \item \label{stm:i} Prove that if $φ : S_1 \to S_2$ is
+        a differentiable application between two surfaces that is also
+        a local diffeomorphism in every point $p \in S_1$ and
+        $S_2$ is orientable then
+        $S_1$ is orientable.
+
+        \item \label{stm:ii} Prove that if $φ : S_1 \to S_2$ is a diffeomorphism.
+        then $S_1$ is orientable if and only if $S_2$ is orientable.
+        (Therefore, orientability is a quality invariant under a diffeomorphism.)
+
+        \item \label{stm:iii} Prove that if $φ : S_1 \to S_2$ is a diffeomorphism between
+        two oriented surfaces,
+        $φ$ may induce a different orientation over $S_2$ than the initial.
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    \Cref{stm:ii} is a consequence of \cref{stm:i}.
+A diffeomorphism and its inverse are local diffeomorphisms.
+
+    We will use the definition that
+a surface $S$ is orientable if there is an atlas $A_S$ such that the
+differential of the change of coordinates
+between any pair of parametrizations that intersect
+has a positive determinant.
+
+    That means that the bases of the tangent plane $T_p(S)$
+over a point $p \in S$ given
+by any two intersecting parametrizations $X,Y \in A_S$
+determine the same orientation of $T_p$,
+because the change of coordinates
+%
+\begin{equation*}
+    \mqty(X_{\bar{u}} \\ X_{\bar{v}}) =
+    { \displaystyle
+    \mqty(
+        \pdv{\bar{u}}{u} & \pdv{\bar{u}}{v} \\[6pt]
+        \pdv{\bar{v}}{u} & \pdv{\bar{v}}{v}
+    )
+    }
+    \mqty(X_u \\ X_v)
+\end{equation*}
+%
+(at the point $p$)
+is the jacobian in $p$ of the change of coordinates between $X$ and $Y$.
+
+    We start the exercise fixing an orientation for $S_2$ by picking
+any fixed atlas $A_{S_2}$.
+The orientation defined on the tangent planes of $S_2$
+by any parametrization $X \in A_{S_2}$ will be called \emph{positive}.
+
+    We can use $φ$ to select an atlas on $S_1$ that is oriented as well.
+For every point $p \in S_1$,
+$\dd{φ}(p)$ is a biyection between $T_p(S_1)$ and $T_{φ(p)}(S_2)$.
+Hence, we will call a parametrization $X : U \to X(U)$
+\emph{positively oriented} if the basis
+$\basis{\dd{φ}(X(q))(X_u)}{\dd{φ}(X(q))(X_v)}$
+is positively oriented in $T_{φ(q)}(S_2)$ for any $q \in U$.
+
+    Given two intersecting positively oriented parametrizations $X$ and $Y$
+of $p \in S$,
+the jacobian of the change of coordinates between them must be positive,
+because if $M$ is the positive operator that acts as the change of coordinates between
+$\basis{\dd{φ}(X_u)}{\dd{φ}(X_v)}$ and $\basis{\dd{φ}(Y_u)}{\dd{φ}(U_v)}$,
+the change of coordinates from
+$\basis{X_u}{X_v}$ and $\basis{Y_u}{Y_v}$,
+%
+\begin{equation*}
+    \mqty(Y_u & Y_v) =
+    \dd{φ}^{-1} \circ M \circ \dd{φ}
+    \qty(\mqty(X_u & X_v)), \\
+\end{equation*}
+%
+which is equal to the jacobian, is positive:
+%
+\begin{equation*}
+    \sgn(\dd{φ}^{-1} \circ M \circ \dd{φ}) =
+    \sgn(\dd{φ}^{-1})\sgn(M)\sgn(\dd{φ}) =
+    \sgn{M}.
+\end{equation*}
+
+    It is left to see that there is always
+a positively oriented parametrization for any point $p \in S_1$.
+Take $X : U \to X(U)$, a parametrization of $p$.
+We can assume that $\basis{\dd{φ}(p)(Y_u(p))}{\dd{φ}(p)(Y_v(p))}$
+is postively oriented in $T_{φ(p)}(S_2)$,
+because the parametrization $Y(u, v) = X(v, u)$ satisfies
+%
+\begin{equation*}
+    \sgn(\basis{\dd{φ}(Y_u)}{\dd{φ}(Y_v)}) =
+    \sgn(\basis{\dd{φ}(X_v)}{\dd{φ}(X_u)}) =
+    -\sgn(\basis{\dd{φ}(X_u)}{\dd{φ}(X_v)}).
+\end{equation*}
+%
+Now note that
+%
+\begin{equation*}
+    \basis{\dd{φ}(Y_u)}{\dd{φ}(Y_v)} =
+    \dd{φ}\circ\dd{X}\qty(\basis{\mqty(1 \\ 0)}{\mqty(0 \\ 1)}).
+\end{equation*}
+%
+It is clear from the equality above that the basis is positive
+when the determinant of $\dd{φ}\circ\dd{X}$ is.
+But because it is positive in $p$ and $\dd{φ}\circ\dd{X}$ is always of maximum rank,
+it is positive in the connected component of $p$ in $U$.
+
+    Hence, an oriented atlas for $S_1$ is given by taken
+a positively oriented parametrization $X_p$ defined in a connected open set
+for every point $p \in S_1$.
+
+    An example for \cref{stm:iii} needs of two orientations for the same surface $S_2$.
+And for simplicity, we will take $S_1 = S_2$ and the identity map.
+The easiest surface must be $\R^2 \subset \R^3$.
+The atlas $\qty{i : \R^2 \to \R^3}$ has a different orientation than
+$\qty{-i : \R^2 \to \R^3}$,
+because the basis $\basis{i_u(0)}{i_v(0)} = \basis{e_1}{e_2}$
+has a different orientation than $\basis{(-i)_u(0)}{(-i)_v(0)} = \basis{-e_1}{-e_2}$.
+
+    The identity map $\Id : (\R^2, \{i\}) \to (\R^2 \{-i\})$
+is a diffeomorphism between $S_1 = \R^2$ to $S_2 = \R^2$ that induces a different
+orientation in $S_2$,
+as we will prove.
+Fix $p \in S_2$, then, according to $\Id$,
+a basis $\basis{X_u}{X_v}$ of $T_p(S_2)$ is positively oriented if
+$\basis{\dd{i^{-1}}(X_u)}{\dd{i^{-1}}(X_v)} = \basis{X_u}{X_v}$ is positive in $S_1$,
+where we are identifying $T_p(S_1)$ with $T_p(S_2)$.
+But the bases that are positive in $S_1$ are the bases that are negative in $S_2$,
+according to its original orientability.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
