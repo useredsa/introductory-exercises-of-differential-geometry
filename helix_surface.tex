@@ -1,0 +1,256 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 8 \\ Helix Surface} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{December 26th, 2020} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría de Superficies} % Course or class name
+
+\professor{Dr. Pascual Lucas Saorin} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\basis}[2]{\qty{#1,\ #2}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Id}{Id}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+\newcommand{\n}{\vectorbold{n}}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Let $β : I \subset \R \to \R^2 \subset \R^3$ be a planar, parametrized by arc, curve
+    with curvature $κ_β$ and tangent and normal vectors $T_β$ and $N_β$ respectively.
+    Let $\n = (T_β \cross N_β)(s)$ be the unitary vector
+    orthogonal to the plane that contains $β$.
+    Then, given $φ \in [0, \frac{π}{2}]$, we define
+    the \textit{helix surface $S_φ$ built over $β$}
+    as the surface parametrized by
+    %
+    \begin{equation*}
+        X(s, t) = β(s) + t(\cos{φ}N_β(s) + \sin{φ}\n).
+    \end{equation*}
+
+    \begin{enumerate}
+        \item \label{stm:i} Determine the unitary field $N(s, t)$ normal to $S_φ$.
+
+        \item \label{stm:ii} Compute the Gaussian curvature and the mean curvature
+        and classify its points.
+
+        \item \label{stm:iii} Answer whether $β$, seen as belonging to $S_φ$,
+        is a line of curvature or an asymptotic curve.
+
+        \item \label{stm:iv} What type of surface do we obtain when $φ = \frac{π}{2}$?
+        And when $φ = 0$?
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    It is unclear by the statement over which domain is $X$ defined.
+One option is to assume that $t$ moves over a range which makes $S_φ$ not self intersect.
+Another option is to think of $S_φ$ as a surface in a manifold of higher dimension,
+where it does not intersect.
+That is, $X : \R^2 \to \R^5 = [\R^2 | \R^3]$,
+%
+\begin{equation*}
+    X(s, t) = [(s, t) | β(s) + t(\cos{φ}N_β(s) + \sin{φ}\n)].
+\end{equation*}
+%
+We can proceed without fixing a domain,
+merely requiring that it is an open set in $\R^2$.
+
+\subsubsection*{Item \ref{stm:i}}
+    To compute a normal unitary field to $S_φ$,
+we will normalize the cross product of $X_s$ and $X_t$.
+%
+\begin{align*}
+    X_s(s, t) &= T_β(s) - \cos{φ}tκ_β(s)T_β(s) = (1 - \cos{φ}tκ_β(s))T_β(s) \qq{and} \\
+    X_t(s, t) &= \cos{φ}N_β(s) + \sin{φ}\n,
+\end{align*}
+%
+where we have used that $N_β'(s) = -κ_β(s)T_β(s)$.
+In addition, we can also see that $\inner{X_s}{X_t} = 0$.
+To perform the cross product mentally fast,
+note that $T_β$, $N_β$ and $\n$ are a normal basis in $\R^3$ and hence
+$T_β \cross N_β = \n$, $N_β \cross \n = T_β$ and $\n \cross T_β = N_β$\footnote{
+    Actually, it is a positive oriented basis because $\n \coloneqq T_β \cross N_β$.
+    Otherwise we would have the same equalitites but with a minus sign.
+}.
+Therefore
+%
+\begin{equation*}
+    X_s(s, t) \cross X_t(s, t) =
+    (1 - \cos{φ}tκ_β(s))(-\sin{φ}N_β(s) + \cos{φ}\n).
+\end{equation*}
+%
+We can see that the right part, $-\sin{φ}N_β(s) + \cos{φ}\n$, is unitary,
+but in order to preserve the sign of $X_s \cross X_t$,
+we need to know the sign of $1 - \cos{φ}t$.
+
+    Now it is clear that we need to study the domain of $X$,
+because depending on the sign of $1 - \cos{φ}t$,
+the normal is $-\sin{φ}N_β(s) + \cos{φ}\n$ or it is $\sin{φ}N_β(s) - \cos{φ}\n$.
+What is more, when $φ \ne \frac{π}{2}$ and $κ_β(s) \neq 0$,
+$X_s\qty(s, \frac{1}{\cos{φ}κ_β(s)}) = 0$.
+This means that the value $t = \frac{1}{\cos{φ}κ_β(s)}$ is problematic because
+$S_φ$ stops being a surface.
+Below and above that value, we have two connected components with opposite normal vectors.
+In general,
+%
+\begin{equation*}
+    N_{S_φ} = \mp \sin{φ}N_β \pm \cos{φ}\n,
+\end{equation*}
+%
+where the sign is given by the sign of $1 - \cos{φ}N_β(s)$.
+
+\subsubsection*{Item \ref{stm:ii}}
+
+The Gaussian curvature and the mean curvature are defined in terms of the
+principal curvatures of the surface,
+which are given by the eigen vectors of $-\dd{N_{S_φ}}$.
+In this case, it will be easy to compute both from
+the expression $N_{S_φ}(s, t)$ we derived.
+%
+\begin{align*}
+        N \circ X\;(s, t) = {}&
+            \mp \sin{φ}N_β(s) \pm \cos{φ}\n. \\
+    \dd{N}(X(s, t))\qty(X_t(s, t)) = \qquad
+        \pdv{N \circ X}{t}\,(s, t) = {}&
+            0. \\
+    \dd{N}(X(s, t))\qty(X_s(s, t)) = \qquad
+        \pdv{N \circ X}{s}\,(s, t) = {}&
+            \pm \sin{φ}κ_β(s)T_β(s). \\
+\end{align*}
+%
+From the first equality we obtain that one eigen value is $0$,
+and therefore the Gaussian curvature is also $0$,
+while the second can be obtained from the last identity, because
+$\dd{N}(X(s, t))\qty(X_s)$ is proportional to $X_s$
+(both are an elongation of $T_β(s)$).
+Divide the second result by the coefficient which acompanies $X_s$,
+$1 - t\cos{φ}κ_β$,
+to get the second eigen value.
+%
+\begin{gather*}
+    \qty{κ_1(s, t), κ_2(s, t)} =
+    \qty{0, \mp \frac{\sin{φ}κ_β(s)}{1 - t\cos{φ}κ_β(s)} }. \\
+    K(s, t) = 0 \qquad H(s, t) = \mp \frac{\sin{φ}κ_β(s)}{2(1 - t\cos{φ}κ_β(s))}.
+\end{gather*}
+
+\subsubsection*{Item \ref{stm:iii}}
+
+From the previous item we can also deduce that $X_t$ and $X_s$ are
+eigen vectors associated with the principal curvatures.
+This means that $β(s) = X(s, 0)$ is a line of curvature,
+because $β'(s) = X_s(s, 0)$,
+but it is not an asymptotic curve unless
+%
+\begin{equation*}
+    -\frac{\sin{φ}κ_β(s)}{2(1 - t\cos{φ}κ_β(s))} = 0.
+\end{equation*}
+%
+That is, when $φ = \frac{π}{2}$ or $κ_β(s) = 0$.
+    
+\subsubsection*{Item \ref{stm:iv}}
+
+When $φ = \frac{π}{2}$,
+%
+\begin{equation*}
+    X(s, t) = β(s) + t\n,
+\end{equation*}
+%
+an extrusion of $β$ in perpendicular to the plain it is contained in.
+For example, if $β$ is a fraction of a circle,
+$S_{\frac{π}{2}}$ would be a fraction of a cylinder.
+In other cases, it would be something that resembles a cylinder.
+Let us call it a fraction of a pseudo-cylinder.
+
+When $φ = 0$,
+%
+\begin{equation*}
+    X(s, t) = β(s) + tN_β(s),
+\end{equation*}
+%
+an extension of $β$ over the plane it is contained in.
+$S_0$ would be contained in a plane.
+That would make $S_0$ a fraction of a plane.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
