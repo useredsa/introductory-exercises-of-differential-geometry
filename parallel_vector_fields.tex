@@ -1,0 +1,227 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 1 \\ Parallel Vector Fields} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{February 21st, 2021} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría Global de Superficies} % Course or class name
+
+\professor{Dr. Luis J. Alías Linares} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+\newcommand{\vfield}{\mathfrak{X}}
+
+\DeclareDocumentCommand\covariantderivative{ s o m g d() }
+{ % Covariant derivative
+	% s: star for \flatfrac flat covariant derivative
+	% o: optional n for nth covariant derivative
+	% m: mandatory (x in Df/dx)
+	% g: optional (f in Df/dx)
+	% d: long-form D/dx(...)
+	\IfBooleanTF{#1}
+	{\let\fractype\flatfrac}
+	{\let\fractype\frac}
+	\IfNoValueTF{#4}
+	{
+		\IfNoValueTF{#5}
+		{\fractype{D \IfNoValueTF{#2}{}{^{#2}}}{\diffd #3\IfNoValueTF{#2}{}{^{#2}}}}
+		{\fractype{D \IfNoValueTF{#2}{}{^{#2}}}{\diffd #3\IfNoValueTF{#2}{}{^{#2}}} \argopen(#5\argclose)}
+	}
+	{\fractype{D \IfNoValueTF{#2}{}{^{#2}} #3}{\diffd #4\IfNoValueTF{#2}{}{^{#2}}}}
+}
+\DeclareDocumentCommand\cdv{}{\covariantderivative} % Shorthand for \covariantderivative
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Let $α : I \to S \subset \R^3$ be a parametrized curve on
+    a regular surface oriented by a Gauss application $N$
+    and let $V \in \vfield(α)$ be a differentiable tangent vector field along $α$.
+    As it is usual,
+    let $N(t) = N(α(t))$ denote the Gauss application with respect to the interval $I$
+    and let $JV \in \vfield(α)$ denote the rotation of angle $\frac{π}{2}$ of $V$.
+    That is,
+    %
+    \begin{equation*}
+        JV(t) = N(t) \cross V(t) \in T_{α(t)}S, \qq{for all $t \in I$.}
+    \end{equation*}
+
+    \begin{enumerate}
+        \item Prove that
+        %
+        \begin{equation*}
+            \cdv{(JV)}{t} = J\qty(\cdv{V}{t}).
+        \end{equation*}
+        %
+        In other words, that the covariant derivative commutes with $J$,
+        the rotation of angle $\frac{π}{2}$.
+        %
+        \begin{equation*}
+            \cdv{t} \circ J = J \circ \cdv{t}.
+        \end{equation*}
+
+        \item Conclude that $V \in \vfield(α)$ is parallel along $α$
+        if and only if so is $JV$.
+
+        \item Suppose that $V \neq 0$ is parallel along $α$.
+        Prove that any other field $W \in \vfield(α)$ is parallel along $α$
+        if and only if there exist constants $a,b \in \R$ such that
+        %
+        \begin{equation*}
+            W(t) = aV(t) + bJV(t).
+        \end{equation*}
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    Write $JV = N \cross V$. Then the derivative can be computed as
+%
+\begin{equation*}
+    \dv{(N \cross V)}{t} = \dv{N}{t} \cross V + N \cross \dv{V}{t}.
+\end{equation*}
+
+Let us examine the first cross product.
+$N$ is unitary, which means that $\dv{N}{t}$ is tangent to $S$.
+Because $V$ is also tangent to $S$,
+$\dv{N}{t} \cross V$ is normal to $S$.
+Now let us look at the second cross product,
+which is normal to $N$ and therefore tangential to $S$.
+%
+\begin{gather*}
+    % \dv{V}{t} = \cdv{V}{t} + \qty(\dv{V}{t})^{\perp}. \\
+    N \cross \dv{V}{t} =
+    N \cross \qty(\cdv{V}{t} + \qty(\dv{V}{t})^{\perp}) =
+    N \cross \cdv{V}{t}.
+\end{gather*}
+%
+Writing everything together we get
+%
+\begin{equation*}
+    \cdv{(JV)}{t} =
+    \cdv{(N \cross V)}{t} =
+    \qty(\dv{(N \cross V)}{t})^{\top} =
+    N \cross \dv{V}{t} =
+    N \cross \cdv{V}{t} =
+    J\qty(\cdv{V}{t}).
+\end{equation*}
+
+    As a small corollary, we can conclude that $V$ is parallel if and only if so is $JV$,
+due to the fact that $J$ is an isomorphism ($Jv = 0 \iff v = 0$).
+%
+\begin{equation*}
+    \cdv{(JV)}{t} = J\qty(\cdv{V}{t}) = 0 \iff \cdv{V}{t} = 0.
+\end{equation*}
+
+    If we now take a parallel vector field $V \in \vfield(α)$
+such that $V \neq 0$,\footnote{
+    Because the norm of a parallel vector field is constant,
+    it is the same to ask that $V \neq 0$ or that $V(t) \neq 0$ for all $t \in I$.
+}
+$V(t)$ and $JV(t)$ form an (orthogonal) basis of $T_{α(t)}S$.
+Thus, any other differentiable vector field $W \in \vfield(α)$ can be written as
+%
+\begin{equation*}
+    W = aV + bJV
+\end{equation*}
+%
+for some \emph{unique} functions $a,b : I \to \R$.
+More precisely, we know that
+$a(t) = \frac{\inner{W(t)}{V(t)}}{\norm{V(t)}^2}$ and
+$b(t) = \frac{\inner{W(t)}{JV(t)}}{\norm{JV(t)}^2}$,
+which means that $a$ and $b$ are differentiable.
+This allows us to write the covariant derivative of $W$ as
+%
+\begin{equation*}
+    \cdv{W}{t} =
+    \dv{a}{t}V + a\cdv{V}{t} + \dv{b}{t}JV + b\cdv{(JV)}{t} =
+    \dv{a}{t}V + \dv{b}{t}JV.
+\end{equation*}
+%
+$W$ is parallel if and only if its covariant derivative is everywhere $0$.
+However, because $V(t)$ and $JV(t)$ form a basis,
+$\cdv{W}{t}\qty(t) = \dv{a}{t}\qty(t)V(t) + \dv{b}{t}\qty(t)JV(t) = 0$
+if and only if $\dv{a}{t}(t) = \dv{b}{t}(t) = 0$.
+That is, $W$ is parallel if and only if $\dv{a}{t} = \dv{b}{t} = 0$
+if and only if $a$ and $b$ are constants.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
