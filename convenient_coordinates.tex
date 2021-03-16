@@ -1,0 +1,175 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    12pt, % Default font size, values between 10pt-12pt are allowed
+    %letterpaper, % Uncomment for US letter paper size
+    %spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+% \usepackage{mathpazo} % Use the Palatino font
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{hyperref} % For links (both internal and external)
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{cleveref} % Better \ref command -> \cref
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{cancel}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.95\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 3 \\ Convenient Coordinates} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{March 16th, 2021} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría Global de Superficies} % Course or class name
+
+\professor{Dr. Luis J. Alías Linares} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%    Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{physics}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+
+\DeclareDocumentCommand\covariantderivative{ s o m g d() }
+{ % Covariant derivative
+	% s: star for \flatfrac flat covariant derivative
+	% o: optional n for nth covariant derivative
+	% m: mandatory (x in Df/dx)
+	% g: optional (f in Df/dx)
+	% d: long-form D/dx(...)
+	\IfBooleanTF{#1}
+	{\let\fractype\flatfrac}
+	{\let\fractype\frac}
+	\IfNoValueTF{#4}
+	{
+		\IfNoValueTF{#5}
+		{\fractype{D \IfNoValueTF{#2}{}{^{#2}}}{\diffd #3\IfNoValueTF{#2}{}{^{#2}}}}
+		{\fractype{D \IfNoValueTF{#2}{}{^{#2}}}{\diffd #3\IfNoValueTF{#2}{}{^{#2}}} \argopen(#5\argclose)}
+	}
+	{\fractype{D \IfNoValueTF{#2}{}{^{#2}} #3}{\diffd #4\IfNoValueTF{#2}{}{^{#2}}}}
+}
+\DeclareDocumentCommand\cdv{}{\covariantderivative} % Shorthand for \covariantderivative
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%    ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Let $p \in S$ be a point of a regular surface $S$
+    and $\qty{e_1, e_2}$ an orthonormal basis of $T_pS$.
+    Consider $X(u, v) = \exp_p(ue_1 + ve_2)$,
+    a normal coordinate system centered in $p$
+    that is defined over a neighbourhood $U$ of $(0, 0) \in \R^2$.
+    Prove that the following statements are true.
+
+    \begin{enumerate}
+        \item For any $v = ae_1 + be_2 \in T_pS$, $v \ne 0$,
+        the coordinate expression of the maximal geodesic $γ_v(t)$ is
+        $(u(t), v(t)) = (at, bt)$.
+
+        \item The Christoffel symbols $\qty{Γ_{ij}^k : 1 \le i,j,k \le 3}$
+        and the partial derivatives of $E$, $F$ and $G$ are zero in $(0, 0)$.
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+\subsection*{Answer}
+
+    By the homogenity of geodesics and the definition of the exponential function,
+$γ_v(t) = γ_{tv}(1) = \exp_p(tv) = \exp_p(tae_1 + tbe_2)$.
+Because $X$ has to be inyective,
+$(u(t), v(t)) = t(a, b)$ is the coordinates expression of $γ_v$.
+Thanks to this simple expression,
+the differential equation for a geodesic\footnote{
+    For simplicity,
+    we have omitted the point of evaluation $(u, v)$ of the Christoffel symbols.
+},
+\begin{equation*}
+    \begin{cases}
+        u'' + (u')^2Γ^1_{11} + 2u'v'Γ^1_{12} + (v')^2Γ^1_{22} = 0 \\
+        v'' + (u')^2Γ^2_{11} + 2u'v'Γ^2_{12} + (v')^2Γ^2_{22} = 0
+    \end{cases},
+\end{equation*}
+become
+\begin{equation*}
+    \begin{cases}
+        a^2Γ^1_{11} + 2abΓ^1_{12} + b^2Γ^1_{22} = 0 \\
+        a^2Γ^2_{11} + 2abΓ^2_{12} + b^2Γ^2_{22} = 0
+    \end{cases}.
+\end{equation*}
+Given that $v$ is arbitrary and that
+$X(0, 0) = p = γ_v(0)$ is a point common to any $γ_v$,
+we can conclude that all the Christoffel symbols are $0$ in $(0, 0)$.
+That is,
+substituting with $v = e_1$ gives $Γ^1_{11}(0, 0), Γ^2_{11}(0, 0) = 0$,
+substituting with $v = e_2$ gives $Γ^1_{22}(0, 0), Γ^2_{22}(0, 0) = 0$,
+and knowing that,
+substituting with $v = e_1 + e_2$ gives $Γ^1_{12}(0, 0), Γ^2_{12}(0, 0) = 0$.
+Ultimately, writing
+\begin{equation*}
+    \mqty(
+        \frac{E_u}{2} & \frac{E_v}{2} & F_v - \frac{G_u}{2} \\
+        F_u - \frac{E_v}{2} & \frac{G_u}{2} & \frac{G_v}{2}
+    ) =
+    \mqty(E & F \\ F & G)
+    \mqty(Γ^1_{11} & Γ^1_{12} & Γ^1_{22} \\ Γ^2_{11} & Γ^2_{12} & Γ^2_{22}) = 0,
+\end{equation*}
+we can conclude that the partials of $E$, $F$ and $G$ are $0$ in $(0, 0)$ as well.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
