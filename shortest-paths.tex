@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	12pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Required for better horizontal rules in tables
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.45\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 4 \\ Shortest paths} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{May 7th, 2021} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría Global de Superficies} % Course or class name
+
+\professor{Dr. Luis J. Alías Linares} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%	Definitions
+%----------------------------------------------------------------------------------------
+
+\setmathfont{latinmodern-math.otf}
+\setmathfont[range=\setminus]{asana-math.otf}
+\usepackage{physics}
+\usepackage{cleveref}
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\clsr}[1]{\overline{#1}}
+\DeclareMathOperator{\len}{len}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Let $S$ be a regular surface and
+    $V$ a normal neighborhood centered in $p \in S$.
+    Let $ε$ be small enough so that the closure of the geodesic disk $D(p, ε)$
+    is contained in $V$, $\clsr{D}(p, ε) \subset V$.
+
+    Let $q \in S \setminus D(p, ε)$ and consider the function $r(x) := d(x, q)$
+    that measures the distance along $S$ from $x$ to $q$.
+    Let $m$ be a point where the function $r$ reaches a minimum
+    over the compact $S(p, ε)$.
+    $m := \min_{x \in S(p, ε)} \{r(x)\}$.
+    Then
+    \begin{equation*}
+        d(p, q) = d(p, m) + d(m, q) = ε + d(m, q).
+    \end{equation*}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+The length minimizing property of the geodesics tells us that if $D(p,r)$
+is contained in a normal neighborhood of $p$,
+then the geodesic that joins $p$ with $x \in D(p,r)$ is a shortest path.
+Because $\clsr{D}(p,ε) \subset V$, we can find $r > ε$ such that $D(p,r) \subset V$.
+Applying the length minimizing property to $S(p,ε) \subset D(p,r)$,
+we conclude that $d(p,x) = ε$ for all $x \in S(p,ε)$.
+
+Once we prove that, the rest of the exercise involves reasonings
+common to any distance $d(p,q)$ defined as
+the minimum length of the paths joining $p$ and $q$\footnote{
+    For some notions of length and path that follow the common sense of
+    what is a path and what is a length.
+}.
+Here I have chosen to break the proof in small results.
+
+\begin{lemma}
+    Fix a path $α : [0, l]$ from $p$ to $q$.
+    Given that $p$ belongs to $D(p,ε)$, but $q$ does not,
+    $α$ needs to traverse the boundary of $D(p,ε)$.
+    That is, $α([0, l])) \cap S(p,ε) \ne \emptyset$.
+\end{lemma}
+
+\begin{proof}
+    Let $U_1 := α^{-1}(D(p,ε))$ and $U_2 := α^{-1}(S \setminus \clsr{D}(p,ε))$.
+    Both are the preimage of an open set and are therefore open.
+    If the intersection $α([0,l]) \cap S(p,ε)$ were empty, then $U_1 \cup U_2$
+    would be a separation of $[0,l]$ in two open disjoint sets, which is absurd.
+\end{proof}
+
+\begin{lemma}
+    If every path from $p$ to $q$ needs to traverse a set $I$, then
+    \begin{equation}\label{eq:in}
+        d(p,q) \ge d(p,I) + d(I,q).
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    Let $α : [0,l] \to S$ be any path from $p$ to $q$ and
+    let $t$ be such that $α(t) \in I$,
+    which exists because $α$ needs to traverse $I$.
+    Then $\len_0^l(α) = \len_0^{t}(α) + \len_{t}^l(α) \ge d(p, I) + d(I, q)$.
+\end{proof}
+
+\begin{figure}[hbt]
+    \centering
+    \hspace{0.15\columnwidth}
+    \incfig{distances}
+    \caption{An example of a set that separates two points and where
+    the inequality \eqref{eq:in} is strict.}
+    \label{fig:in}
+\end{figure}
+
+Notice that the inequality \eqref{eq:in} may be strict (\cref{fig:in}),
+because the points $x \in I$ for which $d(p, x) = d(p, I)$, if they exist,
+can be different from those where $d(x, q) = d(I, q)$.
+In our case though, $d(p, x) = ε$ for all $x \in S(p,ε)$.
+
+We conclude the proof writing
+\begin{equation*}
+    d(p, m) + d(m, q) = ε + d(m, q) = d(p, S(p,ε)) + d(S(p,ε), q) \le d(p, q).
+\end{equation*}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
