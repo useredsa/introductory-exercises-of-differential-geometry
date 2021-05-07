@@ -1,0 +1,200 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	12pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Required for better horizontal rules in tables
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.45\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 5 \\ Cylinder Variations} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{May 9th, 2021} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría Global de Superficies} % Course or class name
+
+\professor{Dr. Luis J. Alías Linares} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%	Definitions
+%----------------------------------------------------------------------------------------
+
+\setmathfont{latinmodern-math.otf}
+\setmathfont[range=\setminus]{asana-math.otf}
+\usepackage{physics}
+\usepackage{cleveref}
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\clsr}[1]{\overline{#1}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+\DeclareMathOperator{\len}{len}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Consider a regular curve $α:[a,b] \to \R^3$ parametrized by arc
+    of the form $α(t) = \mqty(α_1(t) & α_2(t) & 0)$.
+    Let $S \subset \R^3$ be the cylinder built over $α$,
+    given by its natural parametrization $X : [a,b] \times \R \to S$
+    \begin{equation*}
+        X(s,v) = α(s) + \mqty(0 & 0 & v) = \mqty(α_1(s) & α_2(s) & v).
+    \end{equation*}
+
+    \begin{enumerate}
+        \item Let $f : [a,b] \times (-ε,ε) \to \R$ be a differentiable function.
+        Prove that the application $φ : [a,b] \times (-ε,ε) \to S$
+        \begin{equation*}
+            φ(s, t) = α(s) + \mqty(0 & 0 & f(s, t)) = \mqty(α_1(s) & α_2(s) & f(s, t))
+        \end{equation*}
+        defines a proper normal variation of $α$ if and only if
+        the function $f$ satisfies $f(s,0) = f(a,t) = f(b,t) = 0$
+        for all $s \in [a,b]$ and $t \in (-ε,ε)$.
+
+        \item In the conditions of the previous item,
+        when $φ$ is a proper normal variation,
+        let $L(t)$ be the length of the curve $α_t(s) = φ(s, t)$,
+        \begin{equation*}
+            L(t) = \int_a^b \norm{α_t'(s)} \dd{s}.
+        \end{equation*}
+        Find $L'(0)$ and $L''(0)$.
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+We start by writing the properties of a normal proper variation.
+\begin{itemize}
+    \item $φ$ is differentiable because it is the sum of two differentiable functions.
+    Therefore, it is continous.
+    \item $α_t$ is a regular curve because $φ$ is differentiable and
+    \begin{equation*}
+        \norm{α_t'(s)}^2 = \norm{α'(s)}^2 + \norm{\mqty(0 & 0 & f'(s, t))}^2
+            \ge \norm{α'(s)}^2.
+    \end{equation*}
+    \item $α_0(s) = α(s) + f(s,0)e_3 = α(s)$ if and only if $f(s,0) = 0$.
+    \item $α_t(a) = α(a) + f(a,t)e_3 = α(a)$ if and only if $f(a,t) = 0$.
+    \item $α_t(b) = α(b) + f(b,t)e_3 = α(b)$ if and only if $f(b,t) = 0$.
+    \item $φ_t(s,0) = f_t(s,0)e_3$ is always normal to $α'(s)$.
+\end{itemize}
+This concludes the first part of the exercise.
+
+%----------------------------------------------------------------------------------------
+
+From now on, we suppose the conditions hold and
+we start the study of the length function.
+Applying the Leibniz integral rule to differentiate the integral,
+\begin{equation*}
+    L'(t) = \int_a^b \pdv{t} \norm{a_t'(s)} \dd{s} =
+    \int_a^b \pdv{t} \norm{φ_s(s,t)} \dd{s} =
+    \int_a^b \frac{\inner{φ_{st}(s,t)}{φ_s(s,t)}}{\norm{φ_s(s,t)}} \dd{s}.
+\end{equation*}
+In this case, $φ_{st} = f_{st}e_3$, $φ_s(s,t) = α'(s) + f_s(s,t)e_3$,
+and the inner product is
+\begin{equation*}
+    \inner{φ_{st}(s,t)}{φ_s(s,t)} = f_{st}(s,t)f_s(s,t).
+\end{equation*}
+Hence, the length derivative can be computed as
+\begin{equation}\label{eq:dv}
+    L'(t) = \int_a^b \frac{f_{st}(s,t)f_s(s,t)}{\norm{φ_s(s,t)}} \dd{s},
+\end{equation}
+but $\eval{f_s(s, t)}_{t = 0} = \pdv{s} f(s, 0) = 0$,
+and so $L'(0) = 0$.
+
+For the second derivative, we use Leibniz integral rule once more
+for the equation \eqref{eq:dv}.
+\begin{align*}
+    L''(t) & = \int_a^b \pdv{t} \frac{f_{st}(s,t)f_s(s,t)}{\norm{φ_s(s,t)}} \dd{s} \\
+    & = \int_a^b \qty\Bigg[
+        \frac{f_{stt}(s,t)f_s(s,t) + f_{st}(s,t)^2}{\norm{φ_s(s,t)}}
+        - \frac{\qty[f_{st}(s,t)f_s(s,t)]^2}{\norm{φ_s(s,t)}^2}
+    ] \dd{s}
+\end{align*}
+Using that $\eval{φ_s(s,t)}_{t = 0} = 0$ once more, the second derivative at $t = 0$ is
+\begin{align*}
+    L''(0) = \int_a^b \frac{f_{st}(s,0)^2}{\norm{φ_s(s,0)}} \dd{s}.
+\end{align*}
+Finally, we can clean the formula a little bit more using that
+$φ_s(s, 0) = \dv{s} φ(s, 0) = \dv{s} α(s) = α'(s)$
+and that $α$ is parametrized by arc.
+\begin{equation*}
+    L''(0) = \int_a^b f_{st}(s,0)^2 \dd{s}
+\end{equation*}
+
+% ALTENATE FORM
+% But we are interested in $L'(0)$.
+% In particular, $\eval{φ_s(s,t)}_{t = 0} = \pdv{s} α(s) = α'(s)$.
+% Using that $α$ is parametrized by arc and the change
+% $\inner{φ_{st}}{φ_s} = \pdv{s} \inner{φ_t}{φ_s} - \inner{φ_t}{φ_{ss}}$,
+% we can further simplify the expression as
+% \begin{align*}
+%     L'(0) & = \int_a^b \qty\Bigg[
+%         \dv{s} \inner{φ_t(s,0)}{φ_s(s,0)} - \inner{φ_t(s,0)}{φ_{ss}(s,0)}
+%     ] \dd{s} \\
+%     & = \eval(\inner{φ_t(s,0)}{φ_s(s,0)}|_a^b
+%         - \int_a^b \inner{φ_t(s,0)}{φ_{ss}(s,0)} \dd{s} \\
+% \end{align*}
+% The first part is $0$ because $φ$ is a proper variation:
+% $φ_t(a,t) = \dv{t} α(a) = 0 = φ_t(b,t) = \dv{t} α(b) = 0$.
+% The second part is also $0$ because
+% $φ_t(s,0) = f_t(s,0)e_3$ and $φ_{ss}(s,0) = \dv[2]{s}α(s) \perp e_3$.
+% Therefore $L'(0) = 0$.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
