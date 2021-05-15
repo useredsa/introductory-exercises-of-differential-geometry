@@ -1,0 +1,243 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	12pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fontspec,unicode-math} % Required for using utf8 characters in math mode
+\usepackage{parskip}  % To add extra space between paragraphs
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Required for better horizontal rules in tables
+% \usepackage{listings} % Required for insertion of code
+\usepackage{enumerate}% To modify the enumerate environment
+\usepackage{import}   % This 4 packages and the command allow importing pdf
+\usepackage{xifthen}  % figures generated with inkscape
+\usepackage{pdfpages} % Source: https://castel.dev/post/lecture-notes-2/
+\usepackage{physics}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{0.45\columnwidth}
+    \small
+        \import{./images/}{#1.pdf_tex}
+}
+\setlength{\parindent}{15pt}
+\setlength{\headheight}{22.66pt}
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Task 6 \\ A Catenoid} % Assignment title
+
+\author{Emilio Domínguez Sánchez} % Student name
+
+\date{May 23rd, 2021} % Due date
+
+\institute{University of Murcia \\ Faculty of Mathematics} % Institute or school name
+
+\class{Geometría Global de Superficies} % Course or class name
+
+\professor{Dr. Luis J. Alías Linares} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+%	Definitions
+%----------------------------------------------------------------------------------------
+
+\usepackage{cleveref}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\inner}[2]{\left\langle #1, \; #2 \right\rangle}
+\newcommand{\D}{\hat{S}}
+\DeclareMathOperator{\area}{area}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\axis}[1]{\mathrm{#1}}
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\section*{Problem}
+
+\begin{problem}
+    Let $S \subset \R^3$ be the catenoid obtained by rotating the curve
+    $α(t) = \mqty(\cosh{t} & 0 & t)$, $α : \R \to \R^3$,
+    along the axis $\axis{OZ}$,
+    that can be parametrized via
+    \begin{equation*}
+        X(θ, t) = \mqty(\cosh{t}\cos{θ} & \cosh{t}\sin{θ} & t),
+    \end{equation*}
+    $X : I \times R \subset \R^2 \to S$ (for an appropiate interval $I$
+    on which $X$ is inyective).
+
+    \begin{enumerate}
+        \item \label{itm:minimal-umbilical} Prove that $S$ is a minimal surface.
+        ¿Does it have any umbilical points?
+        \item \label{itm:area} For every $a > 0$,
+        find the area of $S_a = \qty{\mqty(x & y & z) \in S : \abs{z} < a}$.
+        Notice that $S_a$ is the part of the catenoid contained between
+        the two circumferences obtained by
+        intersecting the catenoid with the planes $z = a$ and $z = -a$.
+        \item  There is another (disconnected) minimal surface
+        with the same surface as $S_a$:
+        the one given by the two circles $D_+(a)$ and $D_-(a)$
+        determined, respectively, by the circunferences $z = a$ and $z = -a$.
+        Let $\D_a := D_+(a) \cup D_-(a)$.
+        Find the area of $\D_a$ and prove that there exists a constant $L$ such that
+        $\area(\D_a) < \area(S_a)$ if and only if $a > L$. 
+    \end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------------------------
+
+We start by calculating the partial derivatives of $X$,
+\begin{align*}
+    X_θ(θ, t) &= \mqty(-\cosh{t}\sin{θ} & \cosh{t}\cos{θ} & 0) \qq{and} \\
+    % X_t(θ, t) &= \mqty(\sinh{t}\cos{θ} & \sinh{t}\sin{θ} & 1),
+    X_t(θ, t) &= \mqty(\;\sinh{t}\cos{θ}\hspace{0.75em} & \sinh{t}\sin{θ} & \,1),
+\end{align*}
+which we use to calculate $X_θ \cross X_t$ and its norm.
+\begin{align*}
+    X_θ(θ, t) \cross X_t(θ, t)\:\,
+        &= \mqty(\cosh{t}\cos{θ} & \cosh{t}\sin{θ} & -\cosh{t}\sinh{t}) \\
+    \norm{X_θ(θ, t) \cross X_t(θ, t)}
+        &= \sqrt{\cosh^2 t + \cosh^2 t \sinh^2 t}
+        % = \sqrt{\cosh^2 t(1 + \sinh^2 t)}
+        = \sqrt{\cosh^4 t}
+        = \cosh^2 t
+\end{align*}
+We will use the norm to calculate the area of $S_a$ and, later, the mean curvature.
+\begin{align*}
+    \area(S_a)
+    &= \int_0^{2π}\int_{-a}^a \norm{X_θ(θ, t) \cross X_t(θ, t)} \dd{t}\dd{θ}
+    = \int_0^{2π}\int_{-a}^a \cosh^2 t \dd{t}\dd{θ} \\
+    &= 2π\int_{-a}^a \cosh^2 t \dd{t}
+    = 2π\int_{-a}^a \frac{\cosh(2t) + 1}{2} \dd{t}
+    = 2π\qty(\eval{\frac{\sinh(2t)}{4}}_{-a}^a + a) \\
+    &= 2π\qty(\frac{\sinh(2a)}{2} + a).
+\end{align*}
+This completes \cref{itm:area}.
+
+\newpage
+%----------------------------------------------------------------------------------------
+
+A caracterization of minimal surfaces is those whose mean curvature is $0$.
+Expressing the normal $N(x, y, z)$ in terms of the coordinates of $S$ in $\R^3$,
+\begin{equation*}
+    \mqty(x(θ, t) & y(θ, t) & z(θ, t)) = X(θ, t),
+\end{equation*}
+the mean curvature can be calculated as $2H(x, y, z) = \divergence{N}(x, y, z)$.
+We perform the desired change of domain,
+\begin{align*}
+    X(θ, t) &= \mqty(\cosh{t}\cos{θ} & \cosh{t}\sin{θ} & t)
+        \sim \mqty(x & y & z), \\
+    N(θ, t) &= \frac{1}{\cosh^2 t}
+        \mqty(\cosh{t}\cos{θ} & \cosh{t}\sin{θ} & -\cosh{t}\sinh{t}), \\
+    N(x, y, z) &= \frac{1}{x^2 + y^2}\mqty(x & y & \sgn(z)f(x, y)), \\
+\end{align*}
+obtaining\footnote{
+    We are writing $\pdv{z}(\sgn(z)f(x, y)) = 0$.
+    In the open set where $z \neq 0$, $\sgn(z)$ is just a constant,
+    and $f$ does not depend on $z$.
+    On the closed set where $z = 0$
+    we can still calculate the partial derivative because we know that the function
+    $N(x, y, z)$ exists and is differentiable.
+    And by the proximity of points where $\sgn(z)$ is positive
+    and points where $\sgn(z)$ is negative,
+    the partial derivative has to be zero.
+}
+\begin{align*}
+    2H(x, y, z) &= \divergence{N}(x, y, z) \\
+        &= \frac{x^2 + y^2 - 2x^2}{(x^2 + y^2)^2} +
+            \frac{x^2 + y^2 - 2x^2}{(x^2 + y^2)^2} +
+            0 \\
+        &= 0.
+\end{align*}
+Therefore, $S$ is minimal.
+
+To complete \cref{itm:minimal-umbilical},
+we need to check wheter the surface has any umbilical points,
+those where both principal curvatures, $κ_1$ and $κ_2$, are zero.
+We know that $κ_1 + κ_2 = 2H = 0$.
+It will suffice to check whether the guassian curvature $K = κ_1κ_2$
+is also zero at some point.
+To that purporse, I will compute the gaussian curvature using the formula
+$K = \frac{\inner{ν}{ν_θ \cross ν_t}}{\norm{ν}^4}$,
+where $ν = X_θ \cross X_t$.
+\begin{gather*}
+    \begin{aligned}
+        ν(θ, t) &= X_θ(θ, t) \cross X_t(θ, t)
+            = \cosh{t}\mqty(\cos{θ} & \sin{θ} & -\sinh{t}), \\
+        ν_θ(θ, t) &= \cosh{t}\mqty(-\sin{θ} & \cos{θ} & 0), \\
+        ν_t(θ, t) &= \mqty(\sinh{t}\cos{θ} & \sinh{t}\sin{θ} & -\cosh^2 t - \sinh^2 t), \\
+        ν_θ(θ, t) \cross ν_t(θ, t) &= -\cosh{t}\mqty(
+                (\cosh^2 t + \sinh^2 t)\cos{θ} &
+                (\cosh^2 t + \sinh^2 t)\sin{θ} &
+                \sinh{t}
+            ),
+    \end{aligned} \\
+    \inner{ν(θ, t)}{ν_θ(θ, t) \cross ν_t(θ, t)}
+        = -\cosh^2 t\qty(\cosh^2 t + \sinh^2 t - \sinh^2 t)
+        = -\cosh^4 t
+\end{gather*}
+and the gaussian curvature is
+\begin{gather*}
+    K(θ, t)
+        = \frac{\inner{ν(θ, t)}{ν_θ(θ, t) \cross ν_t(θ, t)}}{\norm{ν(θ, t)}^4}
+        = \frac{-\cosh^4 t}{(\cosh^2 t)^4}
+        = -\frac{1}{\cosh^4 t} < 0.
+\end{gather*}
+Therefore, the catenoid has no umbilical points.
+
+\newpage
+%----------------------------------------------------------------------------------------
+
+We will finish the exercise comparing the area of $S_a$ and $\D_a$.
+\begin{align*}
+    \area(S_a) &= 2π\qty(\frac{\sinh(2a)}{2} + a) \qq{and} \\
+    \area(\D_a) &= 2π\cosh^2a.
+\end{align*}
+Let $f(a) = \area(S_a) - \area(\D_a)$,
+\begin{align*}
+    f(a) &= 2π\qty(\frac{\sinh(2a)}{2} - \cosh^2a + a)
+    = 2π\qty(\frac{\sinh(2a)}{2} - \frac{\cosh(2a)}{2} + a), \\
+    f'(a) &= 2π(\cosh(2a) - \sinh(2a) + 1) = 2π(e^{-2a} + 1) > 0.
+\end{align*}
+We can see that $f$ is strictly increasing and that $f(0) = -2π$.
+There are two possibilities,
+either $f$ stays negative (and $\lim_{a \to \infty} f'(a) = 0$)
+or $f(L) = 0$ for a single $L \in \R$
+and $f(a) > 0$ if and only if $a > L$,
+as the exercise demands us to prove.
+In point of fact,
+the first case can be discarded because $\lim_{a \to \infty} f'(a) = 2π$.
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
