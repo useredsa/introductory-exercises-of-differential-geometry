@@ -123,9 +123,11 @@ We start by writing the properties of a normal proper variation.
     \item $φ$ is differentiable because it is the sum of two differentiable functions.
     Therefore, it is continous.
     \item $α_t$ is a regular curve because $φ$ is differentiable and
+    \vspace{-4mm}
     \begin{equation*}
         \norm{α_t'(s)}^2 = \norm{α'(s)}^2 + \norm{\mqty(0 & 0 & f'(s, t))}^2
             \ge \norm{α'(s)}^2.
+        \vspace{-5mm}
     \end{equation*}
     \item $α_0(s) = α(s) + f(s,0)e_3 = α(s)$ if and only if $f(s,0) = 0$.
     \item $α_t(a) = α(a) + f(a,t)e_3 = α(a)$ if and only if $f(a,t) = 0$.
@@ -156,16 +158,16 @@ Hence, the length derivative can be computed as
 but $\eval{f_s(s, t)}_{t = 0} = \pdv{s} f(s, 0) = 0$,
 and so $L'(0) = 0$.
 
-For the second derivative, we use Leibniz integral rule once more
-for the equation \eqref{eq:dv}.
+For the second derivative, we use, once more, the Leibniz integral rule
+applied to the equation \eqref{eq:dv}.
 \begin{align*}
     L''(t) & = \int_a^b \pdv{t} \frac{f_{st}(s,t)f_s(s,t)}{\norm{φ_s(s,t)}} \dd{s} \\
     & = \int_a^b \qty\Bigg[
         \frac{f_{stt}(s,t)f_s(s,t) + f_{st}(s,t)^2}{\norm{φ_s(s,t)}}
         - \frac{\qty[f_{st}(s,t)f_s(s,t)]^2}{\norm{φ_s(s,t)}^2}
-    ] \dd{s}
+    ] \dd{s}.
 \end{align*}
-Using that $\eval{φ_s(s,t)}_{t = 0} = 0$ once more, the second derivative at $t = 0$ is
+Again $\eval{f_s(s,t)}_{t = 0} = 0$, and the second derivative at $t = 0$ is
 \begin{align*}
     L''(0) = \int_a^b \frac{f_{st}(s,0)^2}{\norm{φ_s(s,0)}} \dd{s}.
 \end{align*}
@@ -173,7 +175,7 @@ Finally, we can clean the formula a little bit more using that
 $φ_s(s, 0) = \dv{s} φ(s, 0) = \dv{s} α(s) = α'(s)$
 and that $α$ is parametrized by arc.
 \begin{equation*}
-    L''(0) = \int_a^b f_{st}(s,0)^2 \dd{s}
+    L''(0) = \int_a^b f_{st}(s,0)^2 \dd{s}.
 \end{equation*}
 
 % ALTENATE FORM
